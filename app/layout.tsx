@@ -1,5 +1,5 @@
 import "@/app/ui/global.css";
-import { inter } from '@/app/ui/fonts';
+import { mulish } from "@/app/ui/fonts";
 
 export default function RootLayout({
 	children,
@@ -8,8 +8,10 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={`${inter.className} antialiased`}>{children}</body>
-			
+			<body className={`${mulish.className} antialiased`}>
+				{children}
+			</body>
 		</html>
 	);
 }
+/** Danii: use clsx https://github.com/lukeed/clsx to add conditional scheme for light mode and dark mode or system setting*/
