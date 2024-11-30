@@ -6,6 +6,7 @@ const config: Config = {
 		"./components/**/*.{js,ts,jsx,tsx,mdx}",
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
+	darkMode: "class", // Enable class-based dark mode
 	theme: {
 		extend: {
 			gridTemplateColumns: {
@@ -17,9 +18,9 @@ const config: Config = {
 					500: "#0070F3",
 					600: "#2F6FEB",
 				},
-				purple: {
-					100: "#8A2BE2", // bright purple
-					700: "#36115E", // main purple
+				chivaPurple: {
+					500: "#8A2BE2", // bright purple
+					900: "#36115E", // main purple
 				},
 			},
 		},

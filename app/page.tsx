@@ -10,7 +10,7 @@ export default function Page() {
 		<main className="flex min-h-screen flex-col p-6">
 			<div
 				className={
-					"flex h-20 shrink-0 items-end rounded-lg bg-purple-100 p-4 md:h-52"
+					"flex h-20 shrink-0 items-end rounded-lg bg-chivaPurple-500 p-4 md:h-52"
 				}
 			>
 				<ChivaLogo />
@@ -21,13 +21,15 @@ export default function Page() {
 					<p
 						className={`${baloo.className} antialiased text-xl text-gray-800 md:text-3xl md:leading-normal`}
 					>
-						<strong>Welcome to Chi'Va.</strong><br/>Unlock faster access
-						to behavioral health solutions that reduce delays,
-						improve patient outcomes, and recover lost revenue.{" "}
+						<strong>Welcome to Chi'Va.</strong>
+						<br />
+						Unlock faster access to behavioral health solutions that
+						reduce delays, improve patient outcomes, and recover
+						lost revenue.{" "}
 					</p>
 					<Link
 						href="/login"
-						className="flex items-center gap-5 self-start rounded-lg bg-purple-100 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-purple-700 md:text-base"
+						className="flex items-center gap-5 self-start rounded-lg bg-chivaPurple-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-violet-400 md:text-base"
 					>
 						<span>Request A Demo</span>{" "}
 						<ArrowRightIcon className="w-5 md:w-6" />
@@ -40,7 +42,7 @@ export default function Page() {
 					<p>
 						<a
 							href="https://chivaapp.com"
-							className="text-purple-100"
+							className="text-chivaPurple-500"
 						>
 							Alpha Testers Try Chi'Va Now.{" "}
 						</a>

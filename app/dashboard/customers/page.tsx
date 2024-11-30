@@ -1,6 +1,6 @@
 export default function Page() {
 	return (
-		<main className="text-white">
+		<main>
 			<p>Customer's Page</p>
 		</main>
 	);
