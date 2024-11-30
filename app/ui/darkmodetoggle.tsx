@@ -1,9 +1,9 @@
 "use client";
-
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useDarkMode } from "@/app/ui/darkmodecontext";
 
 export default function DarkModeToggle() {
-	const { toggleDarkMode } = useDarkMode(); // No need for direct darkMode state here
+	const { darkMode, toggleDarkMode } = useDarkMode();
 
 	return (
 		<button
@@ -13,7 +13,12 @@ export default function DarkModeToggle() {
 			bg-slate-700 text-slate-100 
 			dark:bg-slate-200 dark:text-slate-800 "
 		>
-			{toggleDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+			{darkMode ? (
+				<SunIcon className="w-5 h-5" />
+			) : (
+				<MoonIcon className="w-5 h-5" />
+			)}
+			{darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
 		</button>
 	);
 }

@@ -17,7 +17,6 @@ export default function SideNav() {
 			</Link>
 			<div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
 				<NavLinks />
-				<DarkModeToggle />
 				<div className="hidden h-auto w-full grow rounded-md bg-slate-200 dark:bg-slate-700 md:block"></div>
 				<form>
 					<button
@@ -30,6 +29,7 @@ export default function SideNav() {
 						<div className="hidden md:block">Sign Out</div>
 					</button>
 				</form>
+				<DarkModeToggle />
 			</div>
 		</div>
 	);
