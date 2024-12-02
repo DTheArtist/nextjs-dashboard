@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
 	return (
 		<DarkModeProvider>
-			<html lang="en" class="dark">
+			<html lang="en" className="dark">
 				<body className={`${mulish.className} antialiased`}>
 					{children}
 				</body>
