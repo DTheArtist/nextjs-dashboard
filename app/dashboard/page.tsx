@@ -2,16 +2,14 @@ import { Card } from "@/app/ui/dashboard/cards";
 import RevenueChart from "@/app/ui/dashboard/revenue-chart";
 import LatestInvoices from "@/app/ui/dashboard/latest-invoices";
 import { baloo } from "@/app/ui/fonts";
-import { fetchRevenue } from "@/app/lib/data";
 
 export default async function Page() {
-	const revenue = await fetchRevenue();
 	return (
 		<main>
 			<h1
 				className={`${baloo.className} mb-4 text-xl md:text-2xl font-semibold `}
 			>
-				Dashboard at Sat Dec 7 3:35 AM
+				Dashboard at Sat Dec 7 4:05 AM
 			</h1>
 			<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 				{/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
@@ -20,7 +18,7 @@ export default async function Page() {
 				{/* <Card title="Total Customers" value={numberOfCustomers} type="customers"/> */}
 			</div>
 			<div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-				<RevenueChart revenue={revenue} />
+				{/* <RevenueChart revenue={revenue}  /> */}
 				{/* <LatestInvoices latestInvoices={latestInvoices} /> */}
 			</div>
 		</main>
