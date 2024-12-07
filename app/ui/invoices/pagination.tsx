@@ -23,8 +23,6 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
 	return (
 		<>
-			{/*  NOTE: Uncomment this code in Chapter 11 */}
-
 			<div className="inline-flex">
 				<PaginationArrow
 					direction="left"
@@ -84,8 +82,10 @@ function PaginationNumber({
 		{
 			"rounded-l-md": position === "first" || position === "single",
 			"rounded-r-md": position === "last" || position === "single",
-			"z-10 bg-blue-600 border-blue-600 text-white": isActive,
-			"hover:bg-gray-100": !isActive && position !== "middle",
+			"z-10 bg-violet-600 border-violet-600 text-white dark:bg-violet-600 dark:border-violet-600 dark:text-slate-100":
+				isActive,
+			"hover:bg-slate-800 hover:text-slate-100 dark:hover:bg-violet-300 dark:hover:text-slate-800":
+				!isActive && position !== "middle",
 			"text-gray-300": position === "middle",
 		},
 	);
@@ -114,8 +114,9 @@ function PaginationArrow({
 	const className = clsx(
 		"flex h-10 w-10 items-center justify-center rounded-md border",
 		{
-			"pointer-events-none text-gray-300": isDisabled,
-			"hover:bg-gray-100": !isDisabled,
+			"pointer-events-none text-slate-300": isDisabled,
+			"hover:bg-slate-800 hover:text-slate-100 dark:hover:bg-violet-300 dark:hover:text-slate-800":
+				!isDisabled,
 			"mr-2 md:mr-4": direction === "left",
 			"ml-2 md:ml-4": direction === "right",
 		},
