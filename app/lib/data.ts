@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+//import { sql } from "@vercel/postgres";
 import { db } from "@vercel/postgres";
 import {
 	CustomerField,
