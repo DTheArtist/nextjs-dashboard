@@ -11,7 +11,7 @@ export default async function Page() {
 			<h1
 				className={`${baloo.className} mb-4 text-xl md:text-2xl font-semibold `}
 			>
-				Dashboard
+				Dashboard at Sat Dec 7 3:35 AM
 			</h1>
 			<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 				{/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
