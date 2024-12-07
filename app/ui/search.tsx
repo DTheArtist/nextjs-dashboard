@@ -19,7 +19,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
 			params.delete("query");
 		}
 		replace(`${pathname}?${params.toString()}`);
-	}, 1000);
+	}, 1000); // 1 second delay as 300ms is not enough for slow typers. 
 
 	return (
 		<div className="relative flex flex-1 flex-shrink-0">
