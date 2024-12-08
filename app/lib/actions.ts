@@ -1,7 +1,6 @@
 "use server";
-
 import { z } from "zod";
-//import { sql } from "@vercel/postgres";
+import { sql } from "@vercel/postgres";
 import { db } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -14,6 +13,7 @@ const FormSchema = z.object({
 	date: z.string(),
 });
 
+const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createInvoice(formData: FormData) {
@@ -24,6 +24,7 @@ export async function createInvoice(formData: FormData) {
 	});
 	const amountInCents = amount * 100;
 	const date = new Date().toISOString().split("T")[0];
+
 	const client = await db.connect();
 	try {
 		await client.sql`
@@ -42,4 +43,32 @@ export async function createInvoice(formData: FormData) {
 	redirect("/dashboard/invoices");
 	// Test it out:
 	//console.log(rawFormData); //serverside logging not the Browser! You will see in the Terminal!
+}
+
+export async function updateInvoice(id: string, formData: FormData) {
+	const { customerId, amount, status } = UpdateInvoice.parse({
+		customerId: formData.get("customerId"),
+		amount: formData.get("amount"),
+		status: formData.get("status"),
+	});
+
+	const amountInCents = amount * 100;
+
+	const client = await db.connect();
+	try {
+		await client.sql`
+        UPDATE invoices
+        SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+        WHERE id = ${id}
+        `;
+	} catch (error) {
+		console.error("Database Error:", error);
+		throw new Error("Failed to fetch revenue data.");
+	} finally {
+		// Release the client back to the pool
+		client.release();
+	}
+
+	revalidatePath("/dashboard/invoices");
+	redirect("/dashboard/invoices");
 }
