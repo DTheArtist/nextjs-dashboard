@@ -72,3 +72,17 @@ export async function updateInvoice(id: string, formData: FormData) {
 	revalidatePath("/dashboard/invoices");
 	redirect("/dashboard/invoices");
 }
+
+export async function deleteInvoice(id: string) {
+	const client = await db.connect();
+	try {
+		await client.sql`DELETE FROM invoices WHERE id = ${id}`;
+		revalidatePath("/dashboard/invoices");
+	} catch (error) {
+		console.error("Database Error:", error);
+		throw new Error("Failed to fetch revenue data.");
+	} finally {
+		// Release the client back to the pool
+		client.release();
+	}
+}
