@@ -1,24 +1,20 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI();
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse,
-) {
-	if (req.method !== "POST") {
-		res.status(405).json({ error: "Method not allowed" });
-		return;
-	}
-
+export async function POST(req: NextRequest) {
 	try {
-		const { content } = req.body;
+		const { content } = await req.json();
+
 		if (!content) {
-			res.status(400).json({ error: "Content is required" });
-			return;
+			return NextResponse.json(
+				{ error: "User input is required" },
+				{ status: 400 },
+			);
 		}
 
+		// Create an assistant
 		const assistant = await openai.beta.assistants.create({
 			name: "Math Tutor",
 			instructions:
@@ -27,29 +23,42 @@ export default async function handler(
 			model: "gpt-4o",
 		});
 
+		// Create a thread with the assistant
 		const thread = await openai.beta.threads.messages.create(assistant.id, {
 			role: "user",
 			content,
 		});
 
-		const run = openai.beta.threads.runs.stream(thread.id, {
-			assistant_id: assistant.id,
+		// Stream the response using a ReadableStream
+		const readableStream = new ReadableStream({
+			start(controller) {
+				const run = openai.beta.threads.runs.stream(thread.id, {
+					assistant_id: assistant.id,
+				});
+
+				run.on("textDelta", (textDelta) => {
+					controller.enqueue(textDelta.value); // Stream chunks of data
+				});
+
+				run.on("end", () => {
+					controller.close();
+				});
+
+				run.on("error", (error) => {
+					console.error("Error during streaming:", error);
+					controller.error(error);
+				});
+			},
 		});
 
-		let responseText = "";
-
-		run.on("textDelta", (textDelta) => {
-			responseText += textDelta.value;
-		})
-			.on("end", () => {
-				res.status(200).json({ response: responseText });
-			})
-			.on("error", (error) => {
-				console.error("Error during streaming:", error);
-				res.status(500).json({ error: "Internal server error" });
-			});
+		return new NextResponse(readableStream, {
+			headers: { "Content-Type": "text/plain" }, // Set appropriate headers
+		});
 	} catch (error) {
 		console.error("Error:", error);
-		res.status(500).json({ error: "Internal server error" });
+		return NextResponse.json(
+			{ error: "Internal server error" },
+			{ status: 500 },
+		);
 	}
 }
