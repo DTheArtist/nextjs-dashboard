@@ -24,7 +24,7 @@ export default function Page() {
 			const url = URL.createObjectURL(response.data);
 			setImageUrl(url);
 		} catch (error) {
-			console.error("Error fetching data:", error.message);
+			console.error("Error fetching data:", error);
 		} finally {
 			setLoading(false);
 		}
