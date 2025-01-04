@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const openai = new OpenAI();
+// Initialize OpenAI with the API key
+const openai = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY, // Securely access the API key
+});
+
+
 
 export async function POST(req: NextRequest) {
 	try {
+		console.log("API Key Loaded:", !!process.env.OPENAI_API_KEY);
 		const { content } = await req.json();
 
 		if (!content) {
@@ -14,20 +20,25 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
+		console.log("Content received:", content);
+
 		// Create an assistant
 		const assistant = await openai.beta.assistants.create({
 			name: "Math Tutor",
 			instructions:
 				"You are a personal math tutor. Write and run code to answer math questions.",
 			tools: [{ type: "code_interpreter" }],
-			model: "gpt-4o",
+			model: "gpt-4o-mini",
 		});
+		console.log("Assistant ID:", assistant.id);
 
 		// Create a thread with the assistant
 		const thread = await openai.beta.threads.messages.create(assistant.id, {
 			role: "user",
 			content,
 		});
+
+		console.log("Thread ID:", thread.id);
 
 		// Stream the response using a ReadableStream
 		const readableStream = new ReadableStream({

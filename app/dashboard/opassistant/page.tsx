@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import axios from "axios";
 
 export default function MathTutorPage() {
 	const [query, setQuery] = useState("");
@@ -13,23 +14,14 @@ export default function MathTutorPage() {
 		setResponse("");
 
 		try {
-			const res = await fetch("/api/mathTutor", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ content: query }),
+			const result = await axios.post("/api/mathTutor", {
+				content: query, // Pass the query to the API
 			});
 
-			if (!res.ok) {
-				throw new Error("Failed to get a response");
-			}
-
-			const data = await res.json();
-			setResponse(data.response);
+			setResponse(result.data.response);
 		} catch (error) {
-			console.error("Error:", error);
-			setResponse("Failed to get a response.");
+			console.error("Error fetching response:", error);
+			setResponse("An error occurred while processing your request.");
 		} finally {
 			setLoading(false);
 		}
@@ -40,7 +32,6 @@ export default function MathTutorPage() {
 			<h1 className="text-xl font-bold mb-4">Math Tutor</h1>
 			<form onSubmit={handleSubmit}>
 				<textarea
-					type="text"
 					value={query}
 					onChange={(e) => setQuery(e.target.value)}
 					placeholder="Enter a math problem"
