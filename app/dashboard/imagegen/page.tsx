@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
 
 export default function Page() {
 	const [userInput, setUserInput] = useState("");
@@ -11,45 +12,29 @@ export default function Page() {
 		e.preventDefault();
 		setLoading(true);
 
-		const apiKey = process.env.NEXT_PUBLIC_HUGGING_FACE_API_KEY;
-
 		try {
-			const res = await fetch(
-				"https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev",
-				{
-					headers: {
-						Authorization: `Bearer ${apiKey}`,
-						"Content-Type": "application/json",
-						"x-wait-for-model": "true",
-					},
-					method: "POST",
-					body: JSON.stringify({ inputs: userInput }),
-				},
+			// Call the server-side API route with Axios
+			const response = await axios.post(
+				"/api/huggingFaceImageGen",
+				{ userInput }, // Pass user input as the request body
+				{ responseType: "blob" }, // Expect binary data as a Blob
 			);
 
-			if (!res.ok) {
-				throw new Error(`Error: ${res.status}`);
-			}
-
-			// Convert response to a Blob (binary data)
-			const blob = await res.blob();
-			console.log("Blob Response:", blob);
-
 			// Create a URL for the Blob to display as an image
-			const url = URL.createObjectURL(blob);
+			const url = URL.createObjectURL(response.data);
 			setImageUrl(url);
 		} catch (error) {
-			console.error("Error fetching data:", error);
+			console.error("Error fetching data:", error.message);
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	console.log("URL Response:", imageUrl);
-    
 	return (
 		<div className="p-6 max-w-lg mx-auto bg-white dark:bg-slate-700 shadow-md rounded-lg">
-			<h1 className="text-xl font-bold mb-4">Image Assistant</h1>
+			<h1 className="text-xl font-bold mb-4">
+				Hugging Face Image Assistant
+			</h1>
 			<form
 				onSubmit={handleSubmit}
 				className="space-y-4"
@@ -74,6 +59,9 @@ export default function Page() {
 			{imageUrl && (
 				<div className="mt-4 p-4 bg-slate-100 dark:bg-slate-500 rounded-lg">
 					<h2 className="text-lg font-medium">Generated Image:</h2>
+					<p>
+						<a href={imageUrl}>{imageUrl}</a>
+					</p>
 					<img
 						src={imageUrl}
 						alt="Generated output"

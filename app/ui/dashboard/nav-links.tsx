@@ -6,6 +6,7 @@ import {
 	DocumentDuplicateIcon,
 	AdjustmentsVerticalIcon,
 	ChatBubbleLeftRightIcon,
+	ChatBubbleBottomCenterTextIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -24,14 +25,19 @@ const links = [
 	{ name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
 	{ name: "Demo", href: "/dashboard/demo", icon: AdjustmentsVerticalIcon },
 	{
-		name: "Session",
-		href: "/dashboard/session",
+		name: "Hugging Assistant",
+		href: "/dashboard/hfassistant",
 		icon: ChatBubbleLeftRightIcon,
 	},
 	{
-		name: "Contents",
-		href: "/dashboard/content",
+		name: "Hugging Image Generator",
+		href: "/dashboard/imagegen",
 		icon: PhotoIcon,
+	},
+	{
+		name: "Open AI Assistant",
+		href: "/dashboard/opassistant",
+		icon: ChatBubbleBottomCenterTextIcon,
 	},
 ];
 
